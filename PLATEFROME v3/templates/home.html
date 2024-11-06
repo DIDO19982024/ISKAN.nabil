@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISKAN | إسکان</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .logo {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .nav a {
+            margin-left: 1rem;
+            text-decoration: none;
+            color: #333;
+        }
+        .nav a.promoter-btn {
+            background: #3498db;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+        section {
+            padding: 4rem 2rem;
+            min-height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .hero {
+            background: linear-gradient(to right, #3498db, #2ecc71);
+            color: white;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .search-bar {
+            max-width: 500px;
+            margin: 2rem auto;
+            padding: 0.5rem;
+            background: blueviolet;
+            border-radius: 25px;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 0.5rem;
+            border: none;
+            outline: none;
+        }
+        .features, .how-it-works {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 2rem;
+        }
+        .feature, .step {
+            flex-basis: calc(25% - 2rem);
+            text-align: center;
+            min-width: 200px;
+        }
+        .feature img, .step img {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 1rem;
+        }
+        .contact {
+            background: #f8f9fa;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        .contact-info, .contact-form {
+            flex: 1;
+            min-width: 300px;
+        }
+        .contact-form form {
+            display: flex;
+            flex-direction: column;
+        }
+        .contact-form input, .contact-form textarea {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+        }
+        .contact-form button {
+            align-self: flex-start;
+            padding: 0.5rem 1rem;
+            background: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            background: #333;
+            color: white;
+        }
+        .stat {
+            text-align: center;
+            padding: 1rem;
+            flex: 1;
+            min-width: 150px;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+        }
+        @media (max-width: 768px) {
+            .feature, .step {
+                flex-basis: calc(50% - 2rem);
+            }
+        }
+        .cta-button {
+            background-color: #3498db;
+            color: white;
+            font-size: 1rem;  /* Taille de police réduite */
+            padding: 0.75rem 1.5rem;  /* Padding réduit */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;  /* Pour enlever le soulignement du lien */
+            display: inline-block;  /* Pour que le padding fonctionne correctement */
+            margin-top: 1rem;  /* Ajoute un peu d'espace au-dessus du bouton */
+        }
+
+        .cta-button:hover {
+            background-color: #2980b9;
+        }
+            </style>
+        </head>
+        <body>
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">ISKAN | إسکان</div>
+        <nav class="nav">
+            <a href="#features">Fonctionnalités</a>
+            <a href="#how-it-works">Comment ça marche</a>
+            <a href="#contact">Contact</a>
+            <a href="#promoter-form" class="promoter-btn">Espace Promoteurs</a>
+            <a href="#">Français</a>
+            <a href="#">عربية</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <h1>Trouvez votre maison de rêve en quelques clics</h1>
+        <p>ISKAN vous aide à découvrir la maison parfaite correspondant à vos critères et à votre budget en seulement 1 minute et 30 secondes. Commencez maintenant !</p>
+        <div class="flex items-center justify-center">
+            <a href="{{ url_for('sinscrire') }}" class="cta-button">
+                Trouvez votre maison maintenant 
+            </a>
+        </div>
+    </section>
+
+    <section id="features">
+        <h2>Pourquoi choisir ISKAN ?</h2>
+        <div class="features">
+            <div class="feature">
+                <img src="static/img/undraw_speed_test_re_pe1f.svg" alt="Rapide & Facile"width="64" height="64">
+                <h3>Rapide & Facile</h3>
+                <p>Trouvez votre maison parfaite en seulement 1 minute et 30 secondes avec notre formulaire convivial.</p>
+            </div>
+            <div class="feature">
+                <img src="static/img/undraw_visual_data_re_mxxo.svg" alt="Simulation de prêt">
+                <h3>Simulation de prêt</h3>
+                <p>Obtenez des simulations instantanées de prêts bancaires subventionnés adaptés à vos besoins.</p>
+            </div>
+            <div class="feature">
+                <img src="static/img/undraw_connected_re_lmq2.svg" alt="Logement coopératif">
+                <h3>Logement coopératif</h3>
+                <p>Rejoignez des coopératives immobilières avec des utilisateurs ayant des besoins et des budgets similaires.</p>
+            </div>
+            <div class="feature">
+                <img src="static/img/undraw_savings_re_eq4w.svg" alt="Économisez jusqu'à 20%">
+                <h3>Économisez jusqu'à 20%</h3>
+                <p>Bénéficiez de partenariats VIP et économisez jusqu'à 20% sur votre futur logement.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works">
+        <h2>Comment ça marche</h2>
+        <div class="how-it-works">
+            <div class="step">
+                <img src="static/img/undraw_settings_tab_mgiw.svg" alt="Étape 1">
+                <p>1. Inscrivez-vous et remplissez votre formulaire détaillé.</p>
+            </div>
+            <div class="step">
+                <img src="static/img/undraw_sign_in_re_o58h.svg" alt="Étape 2">
+                <p>2. Recevez des recommandations personnalisées en fonction de vos critères.</p>
+            </div>
+            <div class="step">
+                <img src="static/img/undraw_done_checking_re_6vyx.svg" alt="Étape 3">
+                <p>3. Explorez les options de financement et les simulations de prêts.</p>
+            </div>
+            <div class="step">
+                <img src="static/img/undraw_connected_re_lmq2.svg" alt="Étape 4">
+                <p>4. Rejoignez des groupes d'achat pour bénéficier de meilleurs prix.</p>
+            </div>
+            <div class="step">
+                <img src="static/img/undraw_developer_activity_re_39tg.svg" alt="Étape 5">
+                <p>5. Connectez-vous avec des promoteurs immobiliers vérifiés.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="contact-info">
+            <h2>Contact</h2>
+            <h3>Pour les promoteurs immobiliers et investisseurs</h3>
+            <p>Vous êtes un promoteur immobilier ou un investisseur ? Rejoignez-nous pour accéder à un large réseau d'acheteurs potentiels et bénéficier de nos partenariats innovants. Contactez notre équipe dédiée pour en savoir plus sur nos services et opportunités de partenariat.</p>
+            <p>Email: partenaires@iskan.com</p>
+            <p>Téléphone: +213 23 50 70 72</p>
+            <h3>ISKAN Siège Social</h3>
+            <p>123 Rue Didouche Mourad<br>
+            Telemly, Alger 16000<br>
+            Algérie</p>
+            <p>Email: info@iskan.com</p>
+            <p>Téléphone: +213 23 50 60 50</p>
+        </div>
+        <div id="promoter-form" class="contact-form">
+            <h3>Formulaire pour les promoteurs</h3>
+            <form>
+                <input type="text" placeholder="Nom de l'entreprise">
+                <input type="text" placeholder="Nom du contact">
+                <input type="email" placeholder="Email professionnel">
+                <input type="tel" placeholder="Téléphone">
+                <textarea placeholder="Décrivez vos projets immobiliers"></textarea>
+                <button type="submit">Envoyer</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stat">
+            <h3>10,000+</h3>
+            <p>Produits disponibles</p>
+        </div>
+        <div class="stat">
+            <h3>50,000+</h3>
+            <p>Utilisateurs inscrits</p>
+        </div>
+        <div class="stat">
+            <h3>500+</h3>
+            <p>Groupes créés</p>
+        </div>
+        <div class="stat">
+            <h3>100+</h3>
+            <p>Promoteurs immobiliers</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2023 ISKAN. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

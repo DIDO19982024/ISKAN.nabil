@@ -1,0 +1,197 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISKAN - Assistance au logement algérien</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-4">ISKAN - Assistance au logement algérien</h1>
+
+        <div id="userInfoForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <h2 class="text-2xl font-bold mb-4">Entrez vos informations</h2>
+            <div class="mb-4">
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="firstName" type="text" placeholder="Prénom">
+            </div>
+            <div class="mb-4">
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastName" type="text" placeholder="Nom">
+            </div>
+            <div class="mb-4">
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="age" type="number" placeholder="Âge">
+            </div>
+            <div class="mb-4">
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="income" type="number" placeholder="Revenu mensuel (DZD)">
+            </div>
+            <div class="mb-4">
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="currentSavings" type="number" placeholder="Épargne actuelle (DZD)">
+            </div>
+            <div class="mb-4">
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="otherDebts" type="number" placeholder="Autres dettes mensuelles (DZD)">
+            </div>
+            <div class="mb-4">
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="location">
+                    <option value="">Emplacement souhaité</option>
+                    <option value="algiers">Alger</option>
+                    <option value="oran">Oran</option>
+                    <option value="constantine">Constantine</option>
+                    <option value="annaba">Annaba</option>
+                    <option value="tlemcen">Tlemcen</option>
+                    <option value="setif">Sétif</option>
+                    <option value="batna">Batna</option>
+                    <option value="blida">Blida</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="housingType">
+                    <option value="">Type de logement</option>
+                    <option value="apartment">Appartement</option>
+                    <option value="duplex">Duplex</option>
+                    <option value="villa">Villa</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="rooms">
+                    <option value="">Nombre de pièces</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5+</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="maxBudget" class="block text-gray-700 text-sm font-bold mb-2">Budget maximum (DZD): <span id="budgetValue"></span></label>
+                <input type="range" id="maxBudget" min="5000000" max="15000000" step="100000" class="w-full">
+            </div>
+            <div class="flex items-center justify-between">
+                <button id="submitButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    Soumettre
+                </button>
+            </div>
+            </div>
+        
+            <div id="results" class="hidden">
+            <div id="matchingProjects" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <h2 class="text-2xl font-bold mb-4">Projets correspondants</h2>
+                <ul id="projectsList"></ul>
+            </div>
+
+            <div id="loanSimulation" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <h2 class="text-2xl font-bold mb-4">Simulation de prêt</h2>
+                <div id="loanDetails"></div>
+            </div>
+
+            <div id="matchingGroups" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <h2 class="text-2xl font-bold mb-4">Groupes d'utilisateurs correspondants</h2>
+                <ul id="groupsList"></ul>
+            </div>
+                /div>
+                    </div>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const maxBudgetSlider = document.getElementById('maxBudget');
+                            const budgetValue = document.getElementById('budgetValue');
+                            const submitButton = document.getElementById('submitButton');
+
+                            maxBudgetSlider.addEventListener('input', function() {
+                                budgetValue.textContent = parseInt(this.value).toLocaleString() + ' DZD';
+                            });
+
+                            submitButton.addEventListener('click', submitForm);
+
+                            function submitForm() {
+                                const userInfo = {
+                                    firstName: document.getElementById('firstName').value,
+                                    lastName: document.getElementById('lastName').value,
+                                    age: document.getElementById('age').value,
+                                    income: document.getElementById('income').value,
+                                    currentSavings: document.getElementById('currentSavings').value,
+                                    otherDebts: document.getElementById('otherDebts').value,
+                                    location: document.getElementById('location').value,
+                                    housingType: document.getElementById('housingType').value,
+                                    rooms: document.getElementById('rooms').value,
+                                    maxBudget: document.getElementById('maxBudget').value
+                                };
+
+                                console.log("Sending user info:", userInfo);
+
+                                fetch('/submit', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify(userInfo),
+                                })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error(`HTTP error! status: ${response.status}`);
+                                    }
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    console.log("Received data:", data);
+                                    displayResults(data);
+                                })
+                                .catch((error) => {
+                                    console.error('Error:', error);
+                                    alert("Une erreur s'est produite lors de la soumission du formulaire. Veuillez réessayer.");
+                                });
+                            }
+
+                            function displayResults(data) {
+                                document.getElementById('results').classList.remove('hidden');
+
+                                // Display matching projects
+                                const projectsList = document.getElementById('projectsList');
+                                projectsList.innerHTML = '';
+                                if (data.matchingProjects.length > 0) {
+                                    data.matchingProjects.forEach(project => {
+                                        const li = document.createElement('li');
+                                        li.className = 'mb-2';
+                                        li.innerHTML = `<strong>${project.name}</strong> - ${project.type} à ${project.location}<br>
+                                                        Type: ${project.housingType}, Pièces: ${project.rooms}, Prix: ${project.price.toLocaleString()} DZD`;
+                                        projectsList.appendChild(li);
+                                    });
+                                } else {
+                                    projectsList.innerHTML = '<li>Aucun projet correspondant trouvé.</li>';
+                                }
+
+                                // Display loan simulation
+                                const loanDetails = document.getElementById('loanDetails');
+                                if (data.loanSimulation) {
+                                    loanDetails.innerHTML = `
+                                        <p>Montant du prêt: ${data.loanSimulation.loanAmount.toLocaleString()} DZD</p>
+                                        <p>Taux d'intérêt: ${data.loanSimulation.interestRate}%</p>
+                                        <p>Durée du prêt: ${data.loanSimulation.loanTermYears} ans</p>
+                                        <p>Mensualité: ${parseFloat(data.loanSimulation.monthlyPayment).toLocaleString()} DZD</p>
+                                        <p>Ratio dette/revenu: ${data.loanSimulation.debtToIncomeRatio}%</p>
+                                        <p>Capacité d'endettement maximale: ${parseFloat(data.loanSimulation.maxDebtCapacity).toLocaleString()} DZD</p>
+                                        <p>Éligibilité: ${data.loanSimulation.isEligible ? 'Éligible à un financement à 100%' : 'Non éligible à un financement à 100%'}</p>
+                                    `;
+                                } else {
+                                    loanDetails.innerHTML = '<p>Impossible de calculer la simulation de prêt.</p>';
+                                }
+
+                                // Display matching groups
+                                const groupsList = document.getElementById('groupsList');
+                                groupsList.innerHTML = '';
+                                if (data.matchingGroups.length > 0) {
+                                    data.matchingGroups.forEach(group => {
+                                        const li = document.createElement('li');
+                                        li.className = 'mb-2';
+                                        li.innerHTML = `<strong>${group.location} - ${group.housingType}</strong><br>
+                                                        Membres: ${group.members}, Budget moyen: ${group.averageBudget.toLocaleString()} DZD`;
+                                        groupsList.appendChild(li);
+                                    });
+                                } else {
+                                    groupsList.innerHTML = '<li>Aucun groupe correspondant trouvé.</li>';
+                                }
+                            }
+                        });
+                    </script>
+                </body>
+                </html>
